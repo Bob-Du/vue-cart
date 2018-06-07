@@ -22,11 +22,14 @@
             <div class="col-md-2 h4 text-center">小计</div>
             <div class="col-md-2 h4 text-center">操作</div>
         </div>
+        <!-- /表头 -->
         <div class="row tbodyRow" v-for="(item, index) in cartList">
             <!-- 商品详情 -->
             <div class="col-md-4 tscl">
                 <div class="col-md-2">
-                    <div class="radio" @click="check(index)"></div>
+                    <div class="radio" @click="check(index)">
+                        <div v-show="item.checked"></div>
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <img :src="item.pic" class="img-responsive">
@@ -38,28 +41,34 @@
             <!-- 数量 -->
             <div class="col-md-2">
                 <div class="input-group">
-                    <span class="input-group-addon" @click="sub(index)">-</span>
+                    <span class="input-group-addon" @click="subNum(index)">-</span>
                     <input type="number" class="form-control text-center" v-model="item.productNum">
-                    <span class="input-group-addon" @click="item.productNum+=1">+</span>
+                    <span class="input-group-addon" @click="addNum(index)">+</span>
                 </div>
             </div>
             <!-- 小计 -->
-            <div class="col-md-2 text-center" v-html="xjList[index]"></div>
+            <div class="col-md-2 text-center">{{item.subtotal}}</div>
             <!-- 操作 -->
-            <div class="col-md-2 text-center" @click:del(index)>删除</div>
+            <div class="col-md-2 text-center">
+                <span class="del" @click="del(index)">删除</span>
+            </div>
         </div>
         <!-- 表尾 -->
-        <div class="row">
+        <div class="row" id="tfoot">
             <div class="col-md-4">
                 <div class="col-md-2">
-                    <div class="radio"></div>
+                    <div class="radio" @click="allCheck">
+                        <div v-show="allChecked"></div>
+                    </div>
                 </div>
                 <div class="col-md-2">全选</div>
             </div>
-            <div class="col-md-2 col-md-offset-10">
-                <button type="button" class="btn btn-danger btn-lg btn-block center-block">去结算</button>
+            <div class="col-md-2 col-md-offset-4">{{total}}</div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger btn-lg btn-block center-block" id="go">去结算</button>
             </div>
         </div>
+        <!-- /表尾 -->
     </div>
 
     <script src="./js/Vue.js"></script>
